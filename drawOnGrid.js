@@ -8,14 +8,19 @@
 //                                if left unscaled.
 function drawOnGrid(shapeFn, originalSizeAsScreenFraction, paddingAsShapeFraction) {
 	const smallestDim = min(width, height);
+	const largestDim = max(width, height);
 
 	const calcPaddedSize = (screenFraction) => screenFraction * (1 + paddingAsShapeFraction) * smallestDim;
 	const originalSizeWithPadding = calcPaddedSize(originalSizeAsScreenFraction)
 	const numThatFitFully = floor(smallestDim / originalSizeWithPadding);
 	const actualSizeWithPadding = smallestDim / numThatFitFully;
 
-	const yStep = actualSizeWithPadding;
-	const xStep = actualSizeWithPadding;
+	//long axis: distribute any space on the long axis for an exact fit
+	const spareSpace = largestDim - numThatFitFully * actualSizeWithPadding;
+	const extraPadding = spareSpace / numThatFitFully;
+
+	const yStep = actualSizeWithPadding + (height <= width ? 0 : extraPadding);
+	const xStep = actualSizeWithPadding + (height >= width ? 0 : extraPadding);
 
 	if (xStep < 30 || yStep < 30) {
 		console.error("too small xStep or yStep", {
@@ -41,6 +46,7 @@ function drawOnGrid(shapeFn, originalSizeAsScreenFraction, paddingAsShapeFractio
 	}
 
 	if (dbg.isDebugging) {
+
 		dbg.debugObjRoundingValues({
 			xStep,
 			yStep,
@@ -48,9 +54,9 @@ function drawOnGrid(shapeFn, originalSizeAsScreenFraction, paddingAsShapeFractio
 			height,
 			numThatFitFully
 		}, 100, height - 70, true);
-
 		dbg.debugObjRoundingValues({
 			originalSizeAsScreenFraction,
+			//originalSize,
 			originalSizeWithPadding,
 			paddingAsShapeFraction,
 		}, 100, height - 40, true);
@@ -80,9 +86,3 @@ function drawOnGridWithMouseResizing(drawFn, originalSizeAsScreenFraction, paddi
 		pasf);
 }
 
-function keyPressed() {
-	if (key === "d") {
-		console.log("got d pressed");
-		dbg.isDebugging = !dbg.isDebugging;
-	}
-}
