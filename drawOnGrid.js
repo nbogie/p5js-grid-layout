@@ -1,4 +1,4 @@
-
+"use strict";
 //Draw shapes on a grid, automatically adjusting grid layout to centre and maximise space
 //parameters:
 //  shapeFn: callback (takes no params) to draw a shape at 0, 0, with a size as promised by originalSizeAsScreenFraction
@@ -81,7 +81,7 @@ function drawOnGridWithMouseResizing(drawFn, originalSizeAsScreenFraction, paddi
 	const rescale = map(mouseY, 0, width, 0.2, 2);
 	const ossf = originalSizeAsScreenFraction * rescale;
 
-	drawOnGrid(() => withScale(() => drawShape(), rescale),
+	drawOnGrid(() => withScale(() => drawFn(), rescale),
 		ossf,
 		pasf);
 }

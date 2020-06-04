@@ -1,3 +1,4 @@
+"use strict";
 //palette: https://www.colourlovers.com/palette/629582/Free_Hugs
 const palette = ["#FEE1AE", "#B3F5C7", "#280E35", "#EABF56", "#F57637", "#FEE1AE", "#B3F5C7", "#280E35"];
 

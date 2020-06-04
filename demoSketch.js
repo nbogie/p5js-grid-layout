@@ -1,3 +1,5 @@
+"use strict";
+
 let mainColor = '#2C3A47';
 let bgColor = '#CAD3C8';
 
@@ -6,21 +8,21 @@ function setup() {
 	noLoop(); //will only call draw() one time.
 }
 
-function mouseMoved() {
+function mousePressed() {
 	redraw();
 }
 
 function mouseDragged() {
 	background(bgColor);
-	drawOnGridWithMouseResizing(drawShape, 0.35, 0.1);
+	drawOnGridWithMouseResizing(drawQuadrants, 0.35, 0.1);
 }
 
 function draw() {
 	background(bgColor);
-	drawOnGrid(drawShape, 0.35, 0.1);
+	drawOnGrid(drawQuadrants, 0.35, 0.1);
 }
 
-function drawShape() {
+function drawQuadrants() {
 	push();
 	//scale will have result at max 0.35 * min(width, height)
 	scale(0.5);
@@ -62,4 +64,13 @@ function drawArcs(angleStart, angleStop, ringSize) {
 		size = size - ringSize;
 	}
 
+}
+
+function keyPressed() {
+	if (key === "d") {
+		dbg.isDebugging = !dbg.isDebugging;
+	}
+	if (key === "s") {
+		save("grid-demo.png");
+	}
 }
